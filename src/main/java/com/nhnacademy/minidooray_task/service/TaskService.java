@@ -30,6 +30,8 @@ public class TaskService {
     public TaskDto.Response create(Long projectId, TaskDto.Create request, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        ProjectMember projectMember = projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
         MileStone milestone = request.getMilestone() != null
                 ? milestoneRepository.findById(request.getMilestone())
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 마일스톤입니다."))
@@ -37,6 +39,7 @@ public class TaskService {
 
         Task task = Task.builder()
                 .project(project)
+                .projectMember(projectMember)
                 .milestone(milestone)
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -48,6 +51,8 @@ public class TaskService {
     public List<TaskDto.Response> list(Long projectId, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         return taskRepository.findByProject(project)
                 .stream()
@@ -58,6 +63,8 @@ public class TaskService {
     public TaskDto.Response content(Long projectId, Long taskId, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
@@ -69,6 +76,8 @@ public class TaskService {
     public TaskDto.Response update(Long projectId, Long taskId, TaskDto.Update request, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        projectMemberRepository.findByProjectIdAndMemberId(projectId,memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
@@ -85,6 +94,8 @@ public class TaskService {
     public void delete(Long projectId, Long taskId, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));

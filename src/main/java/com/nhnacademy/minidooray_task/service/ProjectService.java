@@ -44,11 +44,10 @@ public class ProjectService {
         projectMember.setMemberId(memberId);
         //3. 조립된 멤버 정보를 데베에 저장
         return projectMemberRepository.save(projectMember);
-
     }
 
     //특정 프로젝트에 참여중인 모든 멤버 리스트를 조회하는 로직
-    public List<ProjectMember> getProjectMembers(Long projectId){
+    public List<ProjectMember> getProjectMembers(Long projectId) {
         return projectMemberRepository.findByProjectId(projectId);
     }
 
