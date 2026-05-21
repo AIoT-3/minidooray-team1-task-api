@@ -23,7 +23,12 @@ public class Comment {
     private Task task;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumns({
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
+                    insertable = false, updatable = false),
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
+                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
+    })
     private ProjectMember projectMember;
 
     private ZonedDateTime createdAt;
