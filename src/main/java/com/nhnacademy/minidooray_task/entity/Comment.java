@@ -22,13 +22,12 @@ public class Comment {
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false),
             @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
     })
     private ProjectMember projectMember;
-
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
