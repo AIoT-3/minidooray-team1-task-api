@@ -1,10 +1,8 @@
 package com.nhnacademy.minidooray_task.entity;
 
-import ch.qos.logback.core.status.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

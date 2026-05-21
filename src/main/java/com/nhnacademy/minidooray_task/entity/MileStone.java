@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray_task.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
