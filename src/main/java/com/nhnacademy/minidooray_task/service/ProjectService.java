@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.nhnacademy.minidooray_task.entity.Project.Status.ACTIVE;
+
 @Service
 @RequiredArgsConstructor //repository주입 위한 롬복
 @Transactional(readOnly = true)//기본적으로 조회는 안전하게 readOnly로 작동함
@@ -27,7 +29,7 @@ public class ProjectService {
         }
         // 💡 [보완] 기본 상태값이 비어있다면 초기 상태를 지정해줍니다.
         if (project.getStatus() == null) {
-            project.setStatus("ACTIVE");
+            project.setStatus(ACTIVE);
         }
         return projectRepository.save(project);
     }

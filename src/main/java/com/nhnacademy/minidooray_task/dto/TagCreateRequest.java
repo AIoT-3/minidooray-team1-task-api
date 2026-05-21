@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TagCreateRequest {
     private String name;
+    private Long projectId;
 }

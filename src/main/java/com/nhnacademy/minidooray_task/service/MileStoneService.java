@@ -1,5 +1,8 @@
 package com.nhnacademy.minidooray_task.service;
 
+import com.nhnacademy.minidooray_task.entity.Project;
+import com.nhnacademy.minidooray_task.exception.NotFoundException;
+import com.nhnacademy.minidooray_task.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class MileStoneService {
 
     private final MileStoneRepository mileStoneRepository;
+    private final ProjectRepository projectRepository;
 
     @Transactional
     public MileStoneDto createMileStone(MileStoneCreateRequest request) {
@@ -27,7 +31,13 @@ public class MileStoneService {
             throw new MileStoneAlreadyExistsException("이미 존재하는 마일스톤 이름입니다: " + request.getName());
         }
 
-        MileStone mileStone = new MileStone(request.getName());
+        Project project = projectRepository.findById(request.getProjectId())
+                .orElseThrow(() -> new NotFoundException("프로젝트를 찾을 수 없습니다."));
+
+        MileStone mileStone = MileStone.builder()
+                .name(request.getName())
+                .project(project)
+                .build();
         MileStone savedMileStone = mileStoneRepository.save(mileStone);
 
         return new MileStoneDto(savedMileStone.getId(), savedMileStone.getName());
@@ -55,7 +65,7 @@ public class MileStoneService {
             throw new MileStoneAlreadyExistsException("이미 존재하는 마일스톤 이름입니다: " + request.getName());
         }
 
-        mileStone.updateName(request.getName());
+        mileStone.update(request.getName());
         return new MileStoneDto(mileStone.getId(), mileStone.getName());
     }
 
