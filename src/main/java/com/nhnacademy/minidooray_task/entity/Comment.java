@@ -1,4 +1,4 @@
-package com.example.spring_boot_jpa.entity;
+package com.nhnacademy.minidooray_task.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

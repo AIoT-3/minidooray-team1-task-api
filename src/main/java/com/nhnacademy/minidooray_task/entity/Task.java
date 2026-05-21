@@ -1,4 +1,4 @@
-package com.example.spring_boot_jpa.entity;
+package com.nhnacademy.minidooray_task.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -16,17 +16,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private ProjectMember projectMember;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "project_id", nullable = false)
+//    private Project project;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id", nullable = false)
+//    private ProjectMember projectMember;
 
     @ManyToOne
     @JoinColumn(name = "milestone_id")
-    private Milestone milestone;
+    private MileStone milestone;
 
     private String title;
     private String content;
@@ -35,18 +35,18 @@ public class Task {
     private ZonedDateTime updatedAt;
 
     @Builder
-    public Task(Long id, String title, String content,Project project, ProjectMember projectMember, Milestone milestone) {
+    public Task(Long id, String title, String content,Project project, ProjectMember projectMember, MileStone milestone) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = ZonedDateTime.now();
         this.updatedAt = ZonedDateTime.now();
-        this.project = project;
-        this.projectMember = projectMember;
+//        this.project = project;
+//        this.projectMember = projectMember;
         this.milestone = milestone;
     }
 
-    public void update(String title, String content, Milestone milestone) {
+    public void update(String title, String content, MileStone milestone) {
         this.title = title;
         this.content = content;
         this.milestone = milestone;

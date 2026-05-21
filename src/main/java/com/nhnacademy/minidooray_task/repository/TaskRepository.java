@@ -1,8 +1,8 @@
-package com.example.spring_boot_jpa.repository;
+package com.nhnacademy.minidooray_task.repository;
 
-import com.example.spring_boot_jpa.entity.Task;
+import com.nhnacademy.minidooray_task.entity.Project;
+import com.nhnacademy.minidooray_task.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

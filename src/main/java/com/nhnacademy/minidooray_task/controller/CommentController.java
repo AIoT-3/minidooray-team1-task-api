@@ -1,7 +1,7 @@
-package com.example.spring_boot_jpa.controller;
+package com.nhnacademy.minidooray_task.controller;
 
-import com.example.spring_boot_jpa.dto.CommentDto;
-import com.example.spring_boot_jpa.service.CommentService;
+import com.nhnacademy.minidooray_task.dto.CommentDto;
+import com.nhnacademy.minidooray_task.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
-package com.example.spring_boot_jpa.dto;
+package com.nhnacademy.minidooray_task.dto;
 
 
-import com.example.spring_boot_jpa.entity.Task;
+import com.nhnacademy.minidooray_task.entity.Task;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,7 +41,7 @@ public class TaskDto {
             response.title = task.getTitle();
             response.content = task.getContent();
             response.milestoneId = task.getMilestone() != null ? task.getMilestone().getId() : null;
-            response.memberId = task.getProjectMember().getId();
+//            response.memberId = task.getProjectMember().getId();
             response.createdAt = task.getCreatedAt();
             response.updatedAt = task.getUpdatedAt();
             return response;

@@ -1,6 +1,6 @@
-package com.example.spring_boot_jpa.dto;
+package com.nhnacademy.minidooray_task.dto;
 
-import com.example.spring_boot_jpa.entity.Comment;
+import com.nhnacademy.minidooray_task.entity.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +32,7 @@ public class CommentDto {
             Response response = new Response();
             response.id = comment.getId();
             response.content = comment.getContent();
-            response.memberId = comment.getProjectMember().getId();
+//            response.memberId = comment.getProjectMember().getId();
             response.createdAt = comment.getCreatedAt();
             response.updatedAt = comment.getUpdatedAt();
             return response;

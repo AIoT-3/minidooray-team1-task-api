@@ -1,4 +1,4 @@
-package com.example.spring_boot_jpa.exeption;
+package com.nhnacademy.minidooray_task.exception;
 
 //요소부족
 public class BaseException extends RuntimeException {

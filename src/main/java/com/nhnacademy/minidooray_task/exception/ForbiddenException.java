@@ -1,4 +1,4 @@
-package com.example.spring_boot_jpa.exeption;
+package com.nhnacademy.minidooray_task.exception;
 
 //권한없음
 public class ForbiddenException extends BaseException {

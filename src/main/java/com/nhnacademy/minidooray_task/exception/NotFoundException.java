@@ -1,4 +1,4 @@
-package com.example.spring_boot_jpa.exeption;
+package com.nhnacademy.minidooray_task.exception;
 
 //존재하지않음
 public class NotFoundException extends BaseException {

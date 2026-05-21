@@ -1,12 +1,16 @@
-package com.example.spring_boot_jpa.service;
+package com.nhnacademy.minidooray_task.service;
 
-import com.example.spring_boot_jpa.dto.CommentDto;
-import com.example.spring_boot_jpa.entity.Comment;
-import com.example.spring_boot_jpa.entity.Task;
-import com.example.spring_boot_jpa.exeption.ForbiddenException;
-import com.example.spring_boot_jpa.exeption.NotFoundException;
-import com.example.spring_boot_jpa.repository.CommentRepository;
-import com.example.spring_boot_jpa.repository.TaskRepository;
+import com.nhnacademy.minidooray_task.dto.CommentDto;
+import com.nhnacademy.minidooray_task.entity.Comment;
+import com.nhnacademy.minidooray_task.entity.Project;
+import com.nhnacademy.minidooray_task.entity.ProjectMember;
+import com.nhnacademy.minidooray_task.entity.Task;
+import com.nhnacademy.minidooray_task.exception.ForbiddenException;
+import com.nhnacademy.minidooray_task.exception.NotFoundException;
+import com.nhnacademy.minidooray_task.repository.CommentRepository;
+import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
+import com.nhnacademy.minidooray_task.repository.ProjectRepository;
+import com.nhnacademy.minidooray_task.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +46,7 @@ public class CommentService {
     @Transactional
     public CommentDto.Response update(Long projectId, Long taskId, Long commentId, CommentDto.Update request, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow();
         ProjectMember projectMember = projectMemberRepository.findByProjectAndMemberId(project, memberId)
                 .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
