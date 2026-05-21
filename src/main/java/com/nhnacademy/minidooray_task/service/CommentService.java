@@ -35,13 +35,11 @@ public class CommentService {
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
-
         Comment comment = Comment.builder()
                 .task(task)
                 .projectMember(projectMember)
                 .content(request.getContent())
                 .build();
-
         return CommentDto.Response.from(commentRepository.save(comment));
     }
 
@@ -57,11 +55,9 @@ public class CommentService {
 
         Comment comment = commentRepository.findByIdAndTask(commentId, task)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Comment입니다."));
-
         if (!comment.getProjectMember().getMemberId().equals(projectMember.getMemberId())) {
             throw new ForbiddenException("수정 권한이 없습니다.");
         }
-
         comment.update(request.getContent());
         return CommentDto.Response.from(comment);
     }
@@ -78,7 +74,6 @@ public class CommentService {
 
         Comment comment = commentRepository.findByIdAndTask(commentId, task)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Comment입니다."));
-
         if (!comment.getProjectMember().getMemberId().equals(projectMember.getMemberId())) {
             throw new ForbiddenException("삭제 권한이 없습니다.");
         }

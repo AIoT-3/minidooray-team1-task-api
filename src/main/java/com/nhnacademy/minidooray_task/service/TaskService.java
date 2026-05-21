@@ -65,7 +65,6 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
         projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
                 .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
-
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
 
