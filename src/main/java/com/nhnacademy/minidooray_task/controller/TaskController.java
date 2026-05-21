@@ -1,5 +1,7 @@
 package com.nhnacademy.minidooray_task.controller;
 
+import com.nhnacademy.minidooray_task.dto.TaskDto;
+import com.nhnacademy.minidooray_task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
