@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,6 +30,12 @@ public class Task {
     })
     private ProjectMember projectMember;
 
+    @ManyToMany(mappedBy = "tasks")
+    private List<Tag> tags = new java.util.ArrayList<>();
+
+    public void removeMilestone() {
+        this.milestone = null;
+    }
     @ManyToOne
     @JoinColumn(name = "milestone_id")
     private MileStone milestone;

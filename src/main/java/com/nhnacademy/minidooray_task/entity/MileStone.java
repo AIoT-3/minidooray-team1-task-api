@@ -42,4 +42,8 @@ public class MileStone {
             task.removeMilestone();
         }
     }
+
+    @ManyToMany(mappedBy = "tasks")
+    private List<Tag> tags = new java.util.ArrayList<>();
+
 }
