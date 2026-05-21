@@ -16,13 +16,18 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "project_id", nullable = false)
-//    private Project project;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id", nullable = false)
-//    private ProjectMember projectMember;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false),
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
+    })
+    private ProjectMember projectMember;
 
     @ManyToOne
     @JoinColumn(name = "milestone_id")
@@ -41,8 +46,8 @@ public class Task {
         this.content = content;
         this.createdAt = ZonedDateTime.now();
         this.updatedAt = ZonedDateTime.now();
-//        this.project = project;
-//        this.projectMember = projectMember;
+        this.project = project;
+        this.projectMember = projectMember;
         this.milestone = milestone;
     }
 
