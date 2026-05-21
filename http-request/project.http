@@ -1,0 +1,20 @@
+### 1. 새로운 프로젝트 생성 테스트
+POST http://localhost:8080/api/projects
+Content-Type: application/json
+
+{
+  "name": "미니두레기 프로젝트",
+  "status": "PLANNING",
+  "adminId": 1,
+  "createdAt": "2026-05-20T19:32:00"
+}
+
+### 2. 프로젝트에 멤버 추가 테스트 (복합키 적용 구간)
+# 1번 프로젝트에 100번 멤버를 추가하는 예시입니다.
+POST http://localhost:8080/api/projects/1/members/100
+
+### 3. 특정 프로젝트의 멤버 전체 조회 (출석부)
+GET http://localhost:8080/api/projects/1/members
+
+### 4. 복합키 자물쇠를 이용한 멤버 단건 조회 테스트
+GET http://localhost:8080/api/projects/1/members/100
