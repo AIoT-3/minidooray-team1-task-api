@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,8 +31,8 @@ public class Task {
     })
     private ProjectMember projectMember;
 
-    @ManyToMany(mappedBy = "tasks")
-    private List<Tag> tags = new java.util.ArrayList<>();
+    @ManyToMany(mappedBy = "tasks") // 기존 "milestone"에서 "tasks"로 수정
+    private List<Tag> tags = new ArrayList<>();
 
     public void removeMilestone() {
         this.milestone = null;
@@ -45,6 +46,13 @@ public class Task {
 
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+
+    public java.util.List<Tag> getTags() {
+        if (this.tags == null) {
+            this.tags = new java.util.ArrayList<>();
+        }
+        return this.tags;
+    }
 
     @Builder
     public Task(Long id, String title, String content,Project project, ProjectMember projectMember, MileStone milestone) {
