@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,23 +22,16 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false),
-            @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
+                    insertable = false, updatable = false),
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
+                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
     })
     private ProjectMember projectMember;
 
     @ManyToOne
     @JoinColumn(name = "milestone_id")
     private MileStone milestone;
-
-    @ManyToMany(mappedBy = "tasks")
-    private List<Tag> tags = new ArrayList<>();
-
-
-    // 마일스톤이 삭제될 때 Task의 외래키를 null로 안전하게 밀어버리기 위한 편의 메서드
-    public void removeMilestone() {
-        this.milestone = null;
-    }
 
     private String title;
     private String content;

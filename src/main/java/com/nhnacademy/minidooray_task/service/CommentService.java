@@ -3,7 +3,9 @@ package com.nhnacademy.minidooray_task.service;
 import com.nhnacademy.minidooray_task.dto.CommentDto;
 import com.nhnacademy.minidooray_task.entity.Comment;
 import com.nhnacademy.minidooray_task.entity.Project;
+import com.nhnacademy.minidooray_task.entity.ProjectMember;
 import com.nhnacademy.minidooray_task.entity.Task;
+import com.nhnacademy.minidooray_task.exception.ForbiddenException;
 import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.repository.CommentRepository;
 import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
@@ -27,14 +29,17 @@ public class CommentService {
     public CommentDto.Response create(Long projectId, Long taskId, CommentDto.Create request, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+
+        ProjectMember projectMember = projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
-
         Comment comment = Comment.builder()
                 .task(task)
+                .projectMember(projectMember)
                 .content(request.getContent())
                 .build();
-
         return CommentDto.Response.from(commentRepository.save(comment));
     }
 
@@ -42,13 +47,17 @@ public class CommentService {
     public CommentDto.Response update(Long projectId, Long taskId, Long commentId, CommentDto.Update request, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow();
+        ProjectMember projectMember = projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
 
         Comment comment = commentRepository.findByIdAndTask(commentId, task)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Comment입니다."));
-
+        if (!comment.getProjectMember().getMemberId().equals(projectMember.getMemberId())) {
+            throw new ForbiddenException("수정 권한이 없습니다.");
+        }
         comment.update(request.getContent());
         return CommentDto.Response.from(comment);
     }
@@ -57,13 +66,17 @@ public class CommentService {
     public void delete(Long projectId, Long taskId, Long commentId, Long memberId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+        ProjectMember projectMember = projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
+                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
 
         Comment comment = commentRepository.findByIdAndTask(commentId, task)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 Comment입니다."));
-
+        if (!comment.getProjectMember().getMemberId().equals(projectMember.getMemberId())) {
+            throw new ForbiddenException("삭제 권한이 없습니다.");
+        }
         commentRepository.delete(comment);
     }
 }
