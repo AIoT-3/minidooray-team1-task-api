@@ -1,7 +1,11 @@
 package com.nhnacademy.minidooray_task.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +20,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //db가 알아서 1,2,3..증가
     private Long id;
 
+    @NotBlank
     @Column(nullable = false,length =100 )
     private String name;
 

@@ -4,6 +4,7 @@ import com.nhnacademy.minidooray_task.dto.ProjectMemberResponseDto;
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
 import com.nhnacademy.minidooray_task.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,14 @@ public class ProjectController {
     //프로젝트 생성 창구
     //*POST /api/projects
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
+    public ResponseEntity<Project> createProject(@Valid @RequestBody Project project) {
         Project createProject = projectService.createProject(project);
         return ResponseEntity.status(HttpStatus.CREATED).body(createProject);
     }
 
     //프로젝트에 멤버 추가 창구(복합키 활용된 서비스 호출)
     //* POST /api/projects/{projectId}/members
-    @PostMapping("/{project-id}/members")
+    @PostMapping("/{project-id}/members/{member-id}")
     public ResponseEntity<ProjectMember> addProjectMember(@PathVariable("project-id") Long projectId,
                                                           @PathVariable("member-id") Long memberId) {
         ProjectMember projectMember = projectService.addProjectMember(projectId, memberId);
@@ -39,13 +40,9 @@ public class ProjectController {
 
     //특정 프로젝트의 모든 멤버 조회
     //* GET /api/projects/{projectId}/members
-    @GetMapping("/{projectId}/members")
-    public ResponseEntity<List<ProjectMemberResponseDto>> getProjectMembers(@PathVariable("projectId") Long projectId) {
-        List<ProjectMember> members = projectService.getProjectMembers(projectId);
-
-        List<ProjectMemberResponseDto> response = members.stream()
-                .map(m -> new ProjectMemberResponseDto(m.getProject().getId(), m.getMemberId()))
-                .collect(Collectors.toList());
+    @GetMapping("/{project-id}/members")
+    public ResponseEntity<List<ProjectMemberResponseDto>> getProjectMembers(@PathVariable("project-id") Long projectId) {
+        List<ProjectMemberResponseDto> response = projectService.getProjectMembers(projectId);
 
         return ResponseEntity.ok(response);
     }
@@ -55,9 +52,8 @@ public class ProjectController {
     @GetMapping("/{project-id}/members/{member-id}")
     public  ResponseEntity<ProjectMemberResponseDto> getProjectMember(
             @PathVariable("project-id") Long projectId,
-            @PathVariable("member-id") Long memberId){
-        ProjectMember m=projectService.getProjectMember(projectId, memberId);
-        ProjectMemberResponseDto response = new ProjectMemberResponseDto(m.getProject().getId(), m.getMemberId());
+            @PathVariable ("member-id") Long memberId){
+        ProjectMemberResponseDto response = projectService.getProjectMember(projectId, memberId);
         return ResponseEntity.ok(response);
     }
 }
