@@ -13,6 +13,5 @@ public class TagCreateRequest {
     @NotBlank
     private String name;
 
-    @NotBlank
     private Long projectId;
 }

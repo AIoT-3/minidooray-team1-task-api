@@ -13,6 +13,5 @@ public class MileStoneCreateRequest {
     @NotBlank
     private String name;
 
-    @NotBlank
     private Long projectId;
 }
