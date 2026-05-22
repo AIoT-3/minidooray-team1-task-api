@@ -53,7 +53,7 @@ public class MileStoneService {
     public List<MileStoneDto> getAllMileStones() {
         return mileStoneRepository.findAll().stream()
                 .map(mileStone -> new MileStoneDto(mileStone.getId(), mileStone.getName()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional

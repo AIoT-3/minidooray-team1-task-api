@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Table(name="projects")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Project {
 
     @Id
@@ -22,11 +22,8 @@ public class Project {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private ProjectStatus status;
 
-    public enum Status {
-        ACTIVE, DORMANT, TERMINATED, PLANNING
-    }
 
     //프로젝트를 생성한 사용자의 id를 저장하여 '관리자'로 임명
     @Column(name="admin_id", nullable = false)
@@ -41,13 +38,13 @@ public class Project {
     }
 
     @Builder
-    public Project(Long id, String name, Status status) {
+    public Project(Long id, String name, ProjectStatus status) {
         this.id = id;
         this.name = name;
-        this.status = status != null ? status : Status.ACTIVE;
+        this.status = status != null ? status : ProjectStatus.ACTIVE;
     }
 
-    public void update(String name, Status status) {
+    public void update(String name, ProjectStatus status) {
         this.name = name;
         this.status = status;
     }

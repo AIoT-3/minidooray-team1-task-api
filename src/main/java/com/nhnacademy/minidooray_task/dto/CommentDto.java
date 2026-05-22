@@ -32,7 +32,6 @@ public class CommentDto {
             Response response = new Response();
             response.id = comment.getId();
             response.content = comment.getContent();
-//            response.memberId = comment.getProjectMember().getId();
             response.createdAt = comment.getCreatedAt();
             response.updatedAt = comment.getUpdatedAt();
             return response;
