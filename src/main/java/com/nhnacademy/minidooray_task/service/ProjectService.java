@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray_task.service;
 
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
+import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray_task.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class ProjectService {
     public ProjectMember addProjectMember(Long projectId, Long memberId) {
         //1. 먼저 해당 프로젝트가 존재하는 방인지 확인하고 가져오기
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 프로젝트입니다. ID: " + projectId));
+                .orElseThrow(() -> new NotFoundException(projectId));
         //2. projectMember를 조립한다.
         ProjectMember projectMember=new ProjectMember();
         projectMember.setProject(project);
@@ -55,7 +56,7 @@ public class ProjectService {
     public ProjectMember getProjectMember(Long projectId, Long memberId){
         ProjectMember.Pk pk=new ProjectMember.Pk(projectId, memberId);
         return projectMemberRepository.findById(pk)
-                .orElseThrow(()->new IllegalArgumentException("해당 프로젝트에 참여하지 않은 멤버이거나 잘못된 정보입니다"));
+                .orElseThrow(()->new NotFoundException(memberId));
     }
 
 }
