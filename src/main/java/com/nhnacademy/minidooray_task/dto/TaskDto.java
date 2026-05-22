@@ -43,7 +43,6 @@ public class TaskDto {
             response.title = task.getTitle();
             response.content = task.getContent();
             response.milestoneId = task.getMilestone() != null ? task.getMilestone().getId() : null;
-//            response.memberId = task.getProjectMember().getId();
             response.createdAt = task.getCreatedAt();
             response.updatedAt = task.getUpdatedAt();
             return response;

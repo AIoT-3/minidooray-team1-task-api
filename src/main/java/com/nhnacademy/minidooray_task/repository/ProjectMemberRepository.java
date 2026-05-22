@@ -1,6 +1,6 @@
 package com.nhnacademy.minidooray_task.repository;
 
-import com.nhnacademy.minidooray_task.entity.Project;
+
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;

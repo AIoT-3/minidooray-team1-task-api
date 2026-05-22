@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.nhnacademy.minidooray_task.entity.Project.Status.ACTIVE;
+
+import static com.nhnacademy.minidooray_task.entity.ProjectStatus.ACTIVE;
 
 @Service
 @RequiredArgsConstructor //repository주입 위한 롬복
@@ -58,7 +59,7 @@ public class ProjectService {
         List<ProjectMember> members=projectMemberRepository.findByProjectId(projectId);
         return members.stream()
                 .map(m-> new ProjectMemberResponseDto(m.getProject().getId(),m.getMemberId()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //특정 멤버가 자신이 참여중인 프로젝트 목록만 싹 긁어올때 쓰는 자물쇠(복합키) 단건 조회 로직

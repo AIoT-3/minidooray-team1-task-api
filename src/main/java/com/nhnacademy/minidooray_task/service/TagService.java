@@ -51,7 +51,7 @@ public class TagService {
     public List<TagDto> getAllTags() {
         return tagRepository.findAll().stream()
                 .map(tag -> new TagDto(tag.getId(), tag.getName()))
-                .collect(Collectors.toList());
+                .toList();
     }
      @Transactional
     public void deleteTag(Long id) {
