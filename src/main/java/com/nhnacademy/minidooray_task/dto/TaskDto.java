@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray_task.dto;
 
 
 import com.nhnacademy.minidooray_task.entity.Task;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ public class TaskDto {
     @Getter
     @NoArgsConstructor
     public static class Create {
+        @NotBlank(message = "제목은 필수입니다")
         private String title;
         private String content;
         private Long milestone;
