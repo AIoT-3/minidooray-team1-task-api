@@ -5,6 +5,7 @@ import com.nhnacademy.minidooray_task.entity.MileStone;
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
 import com.nhnacademy.minidooray_task.entity.Task;
+import com.nhnacademy.minidooray_task.exception.MileStoneNotFoundException;
 import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.repository.MileStoneRepository;
 import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
@@ -29,12 +30,12 @@ public class TaskService {
     @Transactional
     public TaskDto.Response create(Long projectId, TaskDto.Create request, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow(() -> new NotFoundException(projectId));
         ProjectMember projectMember = projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
-                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+                .orElseThrow(() -> new NotFoundException(memberId));
         MileStone milestone = request.getMilestone() != null
                 ? milestoneRepository.findById(request.getMilestone())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 마일스톤입니다."))
+                .orElseThrow(() -> new MileStoneNotFoundException(request.getMilestone()))
                 : null;
 
         Task task = Task.builder()
@@ -50,9 +51,9 @@ public class TaskService {
 
     public List<TaskDto.Response> list(Long projectId, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow(() -> new NotFoundException(projectId));
         projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
-                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+                .orElseThrow(() -> new NotFoundException(memberId));
 
         return taskRepository.findByProject(project)
                 .stream()
@@ -62,11 +63,11 @@ public class TaskService {
 
     public TaskDto.Response content(Long projectId, Long taskId, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow(() -> new NotFoundException(projectId));
         projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
-                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+                .orElseThrow(() -> new NotFoundException(memberId));
         Task task = taskRepository.findByIdAndProject(taskId, project)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
+                .orElseThrow(() -> new NotFoundException(taskId));
 
         return TaskDto.Response.from(task);
     }
@@ -74,15 +75,15 @@ public class TaskService {
     @Transactional
     public TaskDto.Response update(Long projectId, Long taskId, TaskDto.Update request, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow(() -> new NotFoundException(projectId));
         projectMemberRepository.findByProjectIdAndMemberId(projectId,memberId)
-                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+                .orElseThrow(() -> new NotFoundException(memberId));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
+                .orElseThrow(() -> new NotFoundException(taskId));
         MileStone milestone = request.getMilestone() != null
                 ? milestoneRepository.findById(request.getMilestone())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 마일스톤입니다."))
+                .orElseThrow(() -> new NotFoundException(request.getMilestone()))
                 : null;
 
         task.update(request.getTitle(), request.getContent(), milestone);
@@ -92,12 +93,12 @@ public class TaskService {
     @Transactional
     public void delete(Long projectId, Long taskId, Long memberId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 프로젝트입니다."));
+                .orElseThrow(() -> new NotFoundException(projectId));
         projectMemberRepository.findByProjectIdAndMemberId(projectId, memberId)
-                .orElseThrow(() -> new NotFoundException("프로젝트 멤버가 아닙니다."));
+                .orElseThrow(() -> new NotFoundException(memberId));
 
         Task task = taskRepository.findByIdAndProject(taskId, project)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 Task입니다."));
+                .orElseThrow(() -> new NotFoundException(taskId));
 
         taskRepository.delete(task);
     }

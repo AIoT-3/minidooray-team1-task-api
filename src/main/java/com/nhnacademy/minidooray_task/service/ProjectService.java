@@ -2,8 +2,7 @@ package com.nhnacademy.minidooray_task.service;
 
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
-import com.nhnacademy.minidooray_task.exception.InvalidProjectMemberException;
-import com.nhnacademy.minidooray_task.exception.ProjectNotFoundException;
+import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray_task.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ public class ProjectService {
     public ProjectMember addProjectMember(Long projectId, Long memberId) {
         //1. 먼저 해당 프로젝트가 존재하는 방인지 확인하고 가져오기
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new ProjectNotFoundException( projectId));
+                .orElseThrow(() -> new NotFoundException(projectId));
         //2. projectMember를 조립한다.
         ProjectMember projectMember=new ProjectMember();
         projectMember.setProject(project);
@@ -59,7 +58,7 @@ public class ProjectService {
     public ProjectMember getProjectMember(Long projectId, Long memberId) {
         ProjectMember.Pk pk = new ProjectMember.Pk(projectId, memberId);
         return projectMemberRepository.findById(pk)
-                .orElseThrow(InvalidProjectMemberException::new);
+                .orElseThrow(()->new NotFoundException(memberId));
     }
 
 }
