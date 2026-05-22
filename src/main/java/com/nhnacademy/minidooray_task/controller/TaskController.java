@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray_task.controller;
 
 import com.nhnacademy.minidooray_task.dto.TaskDto;
 import com.nhnacademy.minidooray_task.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/projects/{projectId}/tasks")
+@RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -18,7 +19,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto.Response> create(
             @PathVariable Long projectId,
-            @RequestBody TaskDto.Create request,
+            @Valid @RequestBody TaskDto.Create request,
             @RequestParam Long memberId) {
         return ResponseEntity.ok(taskService.create(projectId, request, memberId));
     }
