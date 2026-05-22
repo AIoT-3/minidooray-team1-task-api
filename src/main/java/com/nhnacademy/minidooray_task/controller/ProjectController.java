@@ -28,8 +28,8 @@ public class ProjectController {
     }
 
     //프로젝트에 멤버 추가 창구(복합키 활용된 서비스 호출)
-    //* POST /api/projects/{projectId}/members/{memberId}
-    @PostMapping("/{projectId}/members/{memberId}")
+    //* POST /api/projects/{projectId}/members
+    @PostMapping("/{projectId}/members")
     public ResponseEntity<ProjectMember> addProjectMember(@PathVariable("projectId") Long projectId,
                                                           @PathVariable("memberId") Long memberId) {
         ProjectMember projectMember = projectService.addProjectMember(projectId, memberId);
@@ -39,7 +39,7 @@ public class ProjectController {
 
     //특정 프로젝트의 모든 멤버 조회
     //* GET /api/projects/{projectId}/members
-    @GetMapping("/api/projects/{projectId}/members")
+    @GetMapping("/{projectId}/members")
     public ResponseEntity<List<ProjectMemberResponseDto>> getProjectMembers(@PathVariable("projectId") Long projectId) {
         List<ProjectMember> members = projectService.getProjectMembers(projectId);
 
@@ -52,10 +52,10 @@ public class ProjectController {
 
     //복합키를 이용한 특정 프로젝트의 특정 멤버 단건 조회
     //* GET /api/projects/{projectId}/members/{memberId}
-    @GetMapping("/{projectId}/members/{memberId}")
+    @GetMapping("/{project-id}/members/{member-id}")
     public  ResponseEntity<ProjectMemberResponseDto> getProjectMember(
-            @PathVariable Long projectId,
-            @PathVariable Long memberId){
+            @PathVariable("project-id") Long projectId,
+            @PathVariable("member-id") Long memberId){
         ProjectMember m=projectService.getProjectMember(projectId, memberId);
         ProjectMemberResponseDto response = new ProjectMemberResponseDto(m.getProject().getId(), m.getMemberId());
         return ResponseEntity.ok(response);

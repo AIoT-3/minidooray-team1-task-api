@@ -28,7 +28,7 @@ public class MileStoneService {
     @Transactional
     public MileStoneDto createMileStone(MileStoneCreateRequest request) {
         if (mileStoneRepository.existsByName(request.getName())) {
-            throw new MileStoneAlreadyExistsException("이미 존재하는 마일스톤 이름입니다: " + request.getName());
+            throw new MileStoneAlreadyExistsException(request.getName());
         }
 
         Project project = projectRepository.findById(request.getProjectId())
@@ -45,7 +45,7 @@ public class MileStoneService {
 
     public MileStoneDto getMileStone(Long id) {
         MileStone mileStone = mileStoneRepository.findById(id)
-                .orElseThrow(() -> new MileStoneNotFoundException("해당 마일스톤을 찾을 수 없습니다. ID: " + id));
+                .orElseThrow(() -> new MileStoneNotFoundException(id));
 
         return new MileStoneDto(mileStone.getId(), mileStone.getName());
     }
@@ -59,10 +59,10 @@ public class MileStoneService {
     @Transactional
     public MileStoneDto updateMileStone(Long id, MileStoneUpdateRequest request) {
         MileStone mileStone = mileStoneRepository.findById(id)
-                .orElseThrow(() -> new MileStoneNotFoundException("수정하려는 마일스톤이 존재하지 않습니다. ID: " + id));
+                .orElseThrow(() -> new MileStoneNotFoundException(id));
 
         if (mileStoneRepository.existsByName(request.getName())) {
-            throw new MileStoneAlreadyExistsException("이미 존재하는 마일스톤 이름입니다: " + request.getName());
+            throw new MileStoneAlreadyExistsException(request.getName());
         }
 
         mileStone.update(request.getName());
@@ -72,7 +72,7 @@ public class MileStoneService {
     @Transactional
     public void deleteMileStone(Long id) {
         if (!mileStoneRepository.existsById(id)) {
-            throw new MileStoneNotFoundException("삭제하려는 마일스톤이 존재하지 않습니다. ID: " + id);
+            throw new MileStoneNotFoundException(id);
         }
 
         mileStoneRepository.deleteById(id);

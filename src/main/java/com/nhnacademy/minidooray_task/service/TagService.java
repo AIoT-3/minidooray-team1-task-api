@@ -26,7 +26,7 @@ public class TagService {
     @Transactional
     public TagDto createTag(TagCreateRequest request) {
         if (tagRepository.existsByName(request.getName())) {
-            throw new TagAlreadyExistsException("이미 존재하는 태그 이름입니다. : " + request.getName());
+            throw new TagAlreadyExistsException(request.getName());
         }
         Project project = projectRepository.findById(request.getProjectId())
                 .orElseThrow(() -> new NotFoundException("프로젝트를 찾을 수 없습니다."));
@@ -43,7 +43,7 @@ public class TagService {
 
     public TagDto getTag(Long id) {
         Tag tag = tagRepository.findById(id)
-                .orElseThrow(() -> new TagNotFoundException("해당 태그를 찾을 수 없습니다. ID: " + id));
+                .orElseThrow(() -> new TagNotFoundException(id));
 
         return new TagDto(tag.getId(), tag.getName());
     }
@@ -56,7 +56,7 @@ public class TagService {
      @Transactional
     public void deleteTag(Long id) {
         if (!tagRepository.existsById(id)) {
-            throw new TagNotFoundException("삭제하려는 태그가 존재하지 않습니다. ID: " + id);
+            throw new TagNotFoundException(id);
         }
          tagRepository.deleteById(id);
      }

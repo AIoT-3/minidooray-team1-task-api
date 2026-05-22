@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray_task.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,32 +12,39 @@ import com.nhnacademy.minidooray_task.service.TagService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tags")
+@RequestMapping("/api/projects/{project-id}/tags")
 @RequiredArgsConstructor
 public class TagController {
 
     private final TagService tagService;
 
     @PostMapping
-    public ResponseEntity<TagDto> createTag(@RequestBody TagCreateRequest request) {
+    public ResponseEntity<TagDto> createTag(
+            @Valid @RequestBody TagCreateRequest request,
+            @PathVariable("project-id") String projectId) {
         TagDto response = tagService.createTag(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TagDto> getTag(@PathVariable Long id) {
+    public ResponseEntity<TagDto> getTag(
+            @Valid @PathVariable Long id,
+            @PathVariable("project-id") String projectId) {
         TagDto response = tagService.getTag(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<TagDto>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags(
+            @Valid @PathVariable("project-id") String projectId) {
         List<TagDto> response = tagService.getAllTags();
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTag(
+            @Valid @PathVariable Long id,
+            @PathVariable("project-id") String projectId) {
         tagService.deleteTag(id);
         return ResponseEntity.noContent().build();
     }
