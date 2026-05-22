@@ -31,15 +31,6 @@ public class Task {
     })
     private ProjectMember projectMember;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
-                    insertable = false, updatable = false),
-            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
-                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
-    })
-    private ProjectMember projectMember;
-
     @ManyToMany(mappedBy = "tasks") // 기존 "milestone"에서 "tasks"로 수정
     private List<Tag> tags = new ArrayList<>();
 
