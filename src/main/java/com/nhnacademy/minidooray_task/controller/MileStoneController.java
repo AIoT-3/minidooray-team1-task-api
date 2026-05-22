@@ -29,7 +29,7 @@ public class MileStoneController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MileStoneDto> getMileStone(
-            @Valid @PathVariable Long id,
+            @PathVariable Long id,
             @PathVariable("project-id") String projectId) {
         MileStoneDto response = mileStoneService.getMileStone(id);
         return ResponseEntity.ok(response);
@@ -37,15 +37,15 @@ public class MileStoneController {
 
     @GetMapping
     public ResponseEntity<List<MileStoneDto>> getAllMileStones(
-            @Valid @PathVariable("project-id") String projectId) {
+            @PathVariable("project-id") String projectId) {
         List<MileStoneDto> response = mileStoneService.getAllMileStones();
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MileStoneDto> updateMileStone(
-            @Valid @PathVariable Long id,
-            @RequestBody MileStoneUpdateRequest request,
+            @PathVariable Long id,
+            @Valid @RequestBody MileStoneUpdateRequest request,
             @PathVariable("project-id") String projectId) {
         MileStoneDto response = mileStoneService.updateMileStone(id, request);
         return ResponseEntity.ok(response);
@@ -53,7 +53,7 @@ public class MileStoneController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMileStone(
-            @Valid @PathVariable Long id,
+            @PathVariable Long id,
             @PathVariable("project-id") String projectId) {
         mileStoneService.deleteMileStone(id);
         return ResponseEntity.noContent().build();

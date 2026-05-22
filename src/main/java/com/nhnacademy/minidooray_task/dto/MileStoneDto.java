@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray_task.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MileStoneDto {
+
+    @NotBlank
     private Long id;
+
+    @NotBlank
     private String name;
 }
