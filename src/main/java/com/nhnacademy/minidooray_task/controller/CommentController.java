@@ -22,7 +22,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.create(projectId, taskId, request, memberId));
     }
 
-    @PutMapping("/{commentId}")
+    @PutMapping("/{comment-id}")
     public ResponseEntity<CommentDto.Response> update(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -32,7 +32,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.update(projectId, taskId, commentId, request, memberId));
     }
 
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/{comment-id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
