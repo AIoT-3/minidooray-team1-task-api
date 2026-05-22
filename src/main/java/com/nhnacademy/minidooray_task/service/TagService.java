@@ -29,7 +29,7 @@ public class TagService {
             throw new TagAlreadyExistsException(request.getName());
         }
         Project project = projectRepository.findById(request.getProjectId())
-                .orElseThrow(() -> new NotFoundException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException(request.getProjectId()));
 
         Tag tag = Tag.builder()
                 .name(request.getName())

@@ -32,7 +32,7 @@ public class MileStoneService {
         }
 
         Project project = projectRepository.findById(request.getProjectId())
-                .orElseThrow(() -> new NotFoundException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException(request.getProjectId()));
 
         MileStone mileStone = MileStone.builder()
                 .name(request.getName())
