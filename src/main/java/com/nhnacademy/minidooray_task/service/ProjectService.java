@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray_task.service;
 import com.nhnacademy.minidooray_task.dto.ProjectMemberResponseDto;
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
+import com.nhnacademy.minidooray_task.exception.InvalidProjectMemberException;
 import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.repository.ProjectMemberRepository;
 import com.nhnacademy.minidooray_task.repository.ProjectRepository;
