@@ -30,7 +30,6 @@ public class Comment {
                     insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
     })
     private ProjectMember projectMember;
-
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,6 +31,21 @@ public class Task {
     })
     private ProjectMember projectMember;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
+                    insertable = false, updatable = false),
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
+                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
+    })
+    private ProjectMember projectMember;
+
+    @ManyToMany(mappedBy = "tasks") // 기존 "milestone"에서 "tasks"로 수정
+    private List<Tag> tags = new ArrayList<>();
+
+    public void removeMilestone() {
+        this.milestone = null;
+    }
     @ManyToOne
     @JoinColumn(name = "milestone_id")
     private MileStone milestone;
@@ -38,6 +55,13 @@ public class Task {
 
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+
+    public java.util.List<Tag> getTags() {
+        if (this.tags == null) {
+            this.tags = new java.util.ArrayList<>();
+        }
+        return this.tags;
+    }
 
     @Builder
     public Task(Long id, String title, String content,Project project, ProjectMember projectMember, MileStone milestone) {

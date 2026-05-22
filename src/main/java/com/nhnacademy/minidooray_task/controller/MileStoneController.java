@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray_task.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,26 +13,31 @@ import com.nhnacademy.minidooray_task.service.MileStoneService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/milestones")
+@RequestMapping("/api/projects/{project-id}/milestones")
 @RequiredArgsConstructor
 public class MileStoneController {
 
     private final MileStoneService mileStoneService;
 
     @PostMapping
-    public ResponseEntity<MileStoneDto> createMileStone(@RequestBody MileStoneCreateRequest request) {
+    public ResponseEntity<MileStoneDto> createMileStone(
+            @Valid @RequestBody MileStoneCreateRequest request,
+            @PathVariable("project-id") String projectId) {
         MileStoneDto response = mileStoneService.createMileStone(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MileStoneDto> getMileStone(@PathVariable Long id) {
+    public ResponseEntity<MileStoneDto> getMileStone(
+            @PathVariable Long id,
+            @PathVariable("project-id") String projectId) {
         MileStoneDto response = mileStoneService.getMileStone(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<MileStoneDto>> getAllMileStones() {
+    public ResponseEntity<List<MileStoneDto>> getAllMileStones(
+            @PathVariable("project-id") String projectId) {
         List<MileStoneDto> response = mileStoneService.getAllMileStones();
         return ResponseEntity.ok(response);
     }
@@ -39,13 +45,16 @@ public class MileStoneController {
     @PutMapping("/{id}")
     public ResponseEntity<MileStoneDto> updateMileStone(
             @PathVariable Long id,
-            @RequestBody MileStoneUpdateRequest request) {
+            @Valid @RequestBody MileStoneUpdateRequest request,
+            @PathVariable("project-id") String projectId) {
         MileStoneDto response = mileStoneService.updateMileStone(id, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMileStone(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMileStone(
+            @PathVariable Long id,
+            @PathVariable("project-id") String projectId) {
         mileStoneService.deleteMileStone(id);
         return ResponseEntity.noContent().build();
     }

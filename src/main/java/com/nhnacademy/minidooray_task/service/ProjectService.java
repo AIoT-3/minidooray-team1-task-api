@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.nhnacademy.minidooray_task.entity.Project.Status.ACTIVE;
+
 @Service
 @RequiredArgsConstructor //repository주입 위한 롬복
 @Transactional(readOnly = true)//기본적으로 조회는 안전하게 readOnly로 작동함
@@ -28,7 +30,7 @@ public class ProjectService {
         }
         // 💡 [보완] 기본 상태값이 비어있다면 초기 상태를 지정해줍니다.
         if (project.getStatus() == null) {
-            project.setStatus("ACTIVE");
+            project.setStatus(ACTIVE);
         }
         return projectRepository.save(project);
     }
@@ -53,8 +55,8 @@ public class ProjectService {
     }
 
     //특정 멤버가 자신이 참여중인 프로젝트 목록만 싹 긁어올때 쓰는 자물쇠(복합키) 단건 조회 로직
-    public ProjectMember getProjectMember(Long projectId, Long memberId){
-        ProjectMember.Pk pk=new ProjectMember.Pk(projectId, memberId);
+    public ProjectMember getProjectMember(Long projectId, Long memberId) {
+        ProjectMember.Pk pk = new ProjectMember.Pk(projectId, memberId);
         return projectMemberRepository.findById(pk)
                 .orElseThrow(()->new NotFoundException(memberId));
     }

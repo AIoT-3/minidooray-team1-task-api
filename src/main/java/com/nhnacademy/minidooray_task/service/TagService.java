@@ -2,9 +2,12 @@ package com.nhnacademy.minidooray_task.service;
 
 import com.nhnacademy.minidooray_task.dto.TagCreateRequest;
 import com.nhnacademy.minidooray_task.dto.TagDto;
+import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.Tag;
+import com.nhnacademy.minidooray_task.exception.NotFoundException;
 import com.nhnacademy.minidooray_task.exception.TagAlreadyExistsException;
 import com.nhnacademy.minidooray_task.exception.TagNotFoundException;
+import com.nhnacademy.minidooray_task.repository.ProjectRepository;
 import com.nhnacademy.minidooray_task.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +21,21 @@ import java.util.stream.Collectors;
 @Transactional
 public class TagService {
     private final TagRepository tagRepository;
+    private final ProjectRepository projectRepository;
 
     @Transactional
     public TagDto createTag(TagCreateRequest request) {
         if (tagRepository.existsByName(request.getName())) {
             throw new TagAlreadyExistsException(request.getName());
         }
-        Tag tag = new Tag(request.getName());
+        Project project = projectRepository.findById(request.getProjectId())
+                .orElseThrow(() -> new NotFoundException("프로젝트를 찾을 수 없습니다."));
+
+        Tag tag = Tag.builder()
+                .name(request.getName())
+                .project(project)
+                .build();
+
         Tag savedTag = tagRepository.save(tag);
 
         return new TagDto(savedTag.getId(), savedTag.getName());
