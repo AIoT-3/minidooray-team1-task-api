@@ -28,7 +28,7 @@ public class TagController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TagDto> getTag(
-            @Valid @PathVariable Long id,
+            @PathVariable Long id,
             @PathVariable("project-id") String projectId) {
         TagDto response = tagService.getTag(id);
         return ResponseEntity.ok(response);
@@ -36,14 +36,14 @@ public class TagController {
 
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllTags(
-            @Valid @PathVariable("project-id") String projectId) {
+            @PathVariable("project-id") String projectId) {
         List<TagDto> response = tagService.getAllTags();
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTag(
-            @Valid @PathVariable Long id,
+            @PathVariable Long id,
             @PathVariable("project-id") String projectId) {
         tagService.deleteTag(id);
         return ResponseEntity.noContent().build();

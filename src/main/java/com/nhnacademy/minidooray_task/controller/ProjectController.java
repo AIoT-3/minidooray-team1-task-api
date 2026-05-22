@@ -29,9 +29,9 @@ public class ProjectController {
 
     //프로젝트에 멤버 추가 창구(복합키 활용된 서비스 호출)
     //* POST /api/projects/{projectId}/members
-    @PostMapping("/{projectId}/members")
-    public ResponseEntity<ProjectMember> addProjectMember(@PathVariable("projectId") Long projectId,
-                                                          @PathVariable("memberId") Long memberId) {
+    @PostMapping("/{project-id}/members")
+    public ResponseEntity<ProjectMember> addProjectMember(@PathVariable("project-id") Long projectId,
+                                                          @PathVariable("member-id") Long memberId) {
         ProjectMember projectMember = projectService.addProjectMember(projectId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(projectMember);
     }
