@@ -24,10 +24,8 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
-                    insertable = false, updatable = false),
-            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
-                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id"),
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     })
     private ProjectMember projectMember;
     private ZonedDateTime createdAt;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/{projectId}/tasks/{taskId}")
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -31,7 +31,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.list(projectId, memberId));
     }
 
-    @GetMapping("/{taskId}")
+    @GetMapping("/{task-id}")
     public ResponseEntity<TaskDto.Response> content(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -39,7 +39,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.content(projectId, taskId, memberId));
     }
 
-    @PutMapping("/{taskId}")
+    @PutMapping("/{task-id}")
     public ResponseEntity<TaskDto.Response> update(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -48,7 +48,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.update(projectId, taskId, request, memberId));
     }
 
-    @DeleteMapping("/{taskId}")
+    @DeleteMapping("/{task-id}")
     public ResponseEntity<Void> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId,

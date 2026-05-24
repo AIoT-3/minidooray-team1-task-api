@@ -18,8 +18,6 @@ public class ProjectMember {
     @JoinColumn(name="project_id",nullable = false)
     private Project project;
 
-
-
     @Id //Pk
     @Column(name="member_id", nullable = false)
     private Long memberId;
