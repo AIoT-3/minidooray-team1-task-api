@@ -28,7 +28,7 @@ public class ProjectService {
         if (project.getCreatedAt() == null) {
             project.setCreatedAt(LocalDateTime.now());
         }
-        // 💡 [보완] 기본 상태값이 비어있다면 초기 상태를 지정해줍니다.
+        // 💡 [보완] 기본 상태값이 비어있다면 y777u7u초기 상태를 지정해줍니다.
         if (project.getStatus() == null) {
             project.setStatus(ACTIVE);
         }

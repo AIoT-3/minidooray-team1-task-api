@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/projects/{projectId}/tasks/{taskId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -22,7 +22,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.create(projectId, taskId, request, memberId));
     }
 
-    @PutMapping("/{comment-id}")
+    @PutMapping("/{commentId}")
     public ResponseEntity<CommentDto.Response> update(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -32,7 +32,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.update(projectId, taskId, commentId, request, memberId));
     }
 
-    @DeleteMapping("/{comment-id}")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
