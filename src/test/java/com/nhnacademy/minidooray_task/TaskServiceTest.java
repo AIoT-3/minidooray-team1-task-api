@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray_task;
 
 import com.nhnacademy.minidooray_task.dto.TaskDto;
+
 import com.nhnacademy.minidooray_task.entity.MileStone;
 import com.nhnacademy.minidooray_task.entity.Project;
 import com.nhnacademy.minidooray_task.entity.ProjectMember;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
@@ -51,7 +53,11 @@ class TaskServiceTest {
     void create_success() {
         TaskDto.Create request = new TaskDto.Create();
 
-        TaskDto.Response response = taskService.create(project.getId(), request, memberId);
+        ReflectionTestUtils.setField(request, "title", "테스트 Task");
+        ReflectionTestUtils.setField(request, "content", "내용");
+
+        TaskDto.Response response =
+                taskService.create(project.getId(), request, memberId);
 
         assertThat(response.getTitle()).isEqualTo("테스트 Task");
         assertThat(response.getContent()).isEqualTo("내용");
@@ -79,11 +85,20 @@ class TaskServiceTest {
     @DisplayName("Task 생성 성공 - 마일스톤 포함")
     void create_success_withMilestone() {
         MileStone mileStone = mileStoneRepository.save(
-                MileStone.builder().name("마일스톤").project(project).build()
+                MileStone.builder()
+                        .name("마일스톤")
+                        .project(project)
+                        .build()
         );
+
         TaskDto.Create request = new TaskDto.Create();
 
-        TaskDto.Response response = taskService.create(project.getId(), request, memberId);
+        ReflectionTestUtils.setField(request, "title", "테스트 Task");
+        ReflectionTestUtils.setField(request, "content", "내용");
+        ReflectionTestUtils.setField(request, "milestone", mileStone.getId());
+
+        TaskDto.Response response =
+                taskService.create(project.getId(), request, memberId);
 
         assertThat(response.getMilestoneId()).isEqualTo(mileStone.getId());
     }
@@ -91,23 +106,39 @@ class TaskServiceTest {
     @Test
     @DisplayName("Task 목록 조회 성공")
     void list_success() {
-        taskService.create(project.getId(), new TaskDto.Create(), memberId);
-        taskService.create(project.getId(), new TaskDto.Create(), memberId);
+        TaskDto.Create request1 = new TaskDto.Create();
+        ReflectionTestUtils.setField(request1, "title", "테스트 Task1");
+        ReflectionTestUtils.setField(request1, "content", "내용1");
 
-        List<TaskDto.Response> responses = taskService.list(project.getId(), memberId);
+        TaskDto.Create request2 = new TaskDto.Create();
+        ReflectionTestUtils.setField(request2, "title", "테스트 Task2");
+        ReflectionTestUtils.setField(request2, "content", "내용2");
 
-        assertThat(responses).hasSameClassAs(2);
+        taskService.create(project.getId(), request1, memberId);
+        taskService.create(project.getId(), request2, memberId);
+
+        List<TaskDto.Response> responses =
+                taskService.list(project.getId(), memberId);
+
+        assertThat(responses.size()).isEqualTo(2);
     }
 
     @Test
     @DisplayName("Task 상세 조회 성공")
     void content_success() {
-        TaskDto.Response created = taskService.create(
-                project.getId(), new TaskDto.Create(), memberId);
+        TaskDto.Create request = new TaskDto.Create();
 
-        TaskDto.Response response = taskService.content(project.getId(), created.getId(), memberId);
+        ReflectionTestUtils.setField(request, "title", "테스트 Task");
+        ReflectionTestUtils.setField(request, "content", "내용");
+
+        TaskDto.Response created =
+                taskService.create(project.getId(), request, memberId);
+
+        TaskDto.Response response =
+                taskService.content(project.getId(), created.getId(), memberId);
 
         assertThat(response.getTitle()).isEqualTo("테스트 Task");
+        assertThat(response.getContent()).isEqualTo("내용");
     }
 
     @Test
@@ -120,12 +151,25 @@ class TaskServiceTest {
     @Test
     @DisplayName("Task 수정 성공")
     void update_success() {
-        TaskDto.Response created = taskService.create(
-                project.getId(), new TaskDto.Create(), memberId);
+        TaskDto.Create createRequest = new TaskDto.Create();
+
+        ReflectionTestUtils.setField(createRequest, "title", "기존 제목");
+        ReflectionTestUtils.setField(createRequest, "content", "기존 내용");
+
+        TaskDto.Response created =
+                taskService.create(project.getId(), createRequest, memberId);
+
+        TaskDto.Update updateRequest = new TaskDto.Update();
+
+        ReflectionTestUtils.setField(updateRequest, "title", "수정된 제목");
+        ReflectionTestUtils.setField(updateRequest, "content", "수정된 내용");
 
         TaskDto.Response response = taskService.update(
-                project.getId(), created.getId(),
-                new TaskDto.Update(), memberId);
+                project.getId(),
+                created.getId(),
+                updateRequest,
+                memberId
+        );
 
         assertThat(response.getTitle()).isEqualTo("수정된 제목");
         assertThat(response.getContent()).isEqualTo("수정된 내용");
