@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/projects/{projectId}/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
