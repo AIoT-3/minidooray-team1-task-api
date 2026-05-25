@@ -13,7 +13,7 @@ import com.nhnacademy.minidooray_task.service.MileStoneService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/projects/{project-id}/milestones")
+@RequestMapping("/projects/{project-id}/milestones")
 @RequiredArgsConstructor
 public class MileStoneController {
 
