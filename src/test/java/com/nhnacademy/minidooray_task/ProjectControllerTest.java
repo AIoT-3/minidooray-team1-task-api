@@ -39,18 +39,18 @@ class ProjectControllerTest {
     @Test
     @DisplayName("1. 프로젝트 생성 성공 테스트")
     void createProject_success() throws Exception {
-        // 💡 protected 생성자를 피해가기 위해, Mockito로 리턴받을 가짜 객체 설정
+        // 💡 protected 생성자를 피해가기 위해 Mockito로 리턴받을 가짜 객체 설정
         Project project = new Project();
 
-        // 정민 님 서비스 로직 내부에서 기본값으로 ACTIVE가 주입되므로 동일하게 매칭합니다
+        // 서비스 로직 내부에서 기본값으로 ACTIVE가 주입되므로 동일하게 매칭
         project.setName("미니두레이 프로젝트");
-        project.setStatus(ProjectStatus.ACTIVE); // 👈 실제 존재하는 ACTIVE로 수정!
+        project.setStatus(ProjectStatus.ACTIVE); // 실제 존재하는 ACTIVE로 수정
 
         when(projectService.createProject(any(Project.class))).thenReturn(project);
 
         mockMvc.perform(post("/projects")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"미니두레이 프로젝트\",\"status\":\"ACTIVE\"}")) // 👈 요청 본문도 매칭
+                        .content("{\"name\":\"미니두레이 프로젝트\",\"status\":\"ACTIVE\"}")) //요청 본문도 매칭
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("미니두레이 프로젝트"));
     }
