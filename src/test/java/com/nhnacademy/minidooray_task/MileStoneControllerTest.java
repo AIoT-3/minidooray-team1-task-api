@@ -41,7 +41,7 @@ class MileStoneControllerTest {
 
         given(mileStoneService.createMileStone(any(MileStoneCreateRequest.class))).willReturn(responseDto);
 
-        mockMvc.perform(post("/api/projects/1/milestones")
+        mockMvc.perform(post("/projects/1/milestones")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -55,7 +55,7 @@ class MileStoneControllerTest {
         MileStoneDto responseDto = new MileStoneDto(1L, "Iteration 1");
         given(mileStoneService.getMileStone(1L)).willReturn(responseDto);
 
-        mockMvc.perform(get("/api/projects/1/milestones/{id}", 1L))
+        mockMvc.perform(get("/projects/1/milestones/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Iteration 1"));
@@ -66,7 +66,7 @@ class MileStoneControllerTest {
     void createMileStone_ValidationFailure() throws Exception {
         MileStoneCreateRequest invalidRequest = new MileStoneCreateRequest("", 1L);
 
-        mockMvc.perform(post("/api/projects/1/milestones")
+        mockMvc.perform(post("/projects/1/milestones")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(result -> assertThat(result.getResolvedException())

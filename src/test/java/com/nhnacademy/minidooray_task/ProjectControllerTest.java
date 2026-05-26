@@ -48,7 +48,7 @@ class ProjectControllerTest {
 
         when(projectService.createProject(any(Project.class))).thenReturn(project);
 
-        mockMvc.perform(post("/api/projects")
+        mockMvc.perform(post("/projects")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"미니두레이 프로젝트\",\"status\":\"ACTIVE\"}")) // 👈 요청 본문도 매칭
                 .andExpect(status().isCreated())
@@ -63,7 +63,7 @@ class ProjectControllerTest {
 
         when(projectService.addProjectMember(1L, 100L)).thenReturn(projectMember);
 
-        mockMvc.perform(post("/api/projects/1/members/100"))
+        mockMvc.perform(post("/projects/1/members/100"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.memberId").value(100));
     }
@@ -77,7 +77,7 @@ class ProjectControllerTest {
 
         when(projectService.getProjectMembers(1L)).thenReturn(responseList);
 
-        mockMvc.perform(get("/api/projects/1/members"))
+        mockMvc.perform(get("/projects/1/members"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].projectId").value(1))
                 .andExpect(jsonPath("$[0].memberId").value(100));
@@ -90,7 +90,7 @@ class ProjectControllerTest {
 
         when(projectService.getProjectMember(1L, 100L)).thenReturn(responseDto);
 
-        mockMvc.perform(get("/api/projects/1/members/100"))
+        mockMvc.perform(get("/projects/1/members/100"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.projectId").value(1))
                 .andExpect(jsonPath("$.memberId").value(100));
