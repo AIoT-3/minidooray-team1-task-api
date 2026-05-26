@@ -41,7 +41,7 @@ class TagControllerTest {
 
         given(tagService.createTag(any(TagCreateRequest.class))).willReturn(responseDto);
 
-        mockMvc.perform(post("/api/projects/1/tags")
+        mockMvc.perform(post("/projects/1/tags")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -55,7 +55,7 @@ class TagControllerTest {
         TagDto responseDto = new TagDto(1L, "Bug");
         given(tagService.getTag(1L)).willReturn(responseDto);
 
-        mockMvc.perform(get("/api/projects/1/tags/{id}", 1L))
+        mockMvc.perform(get("/projects/1/tags/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Bug"));
@@ -66,7 +66,7 @@ class TagControllerTest {
     void createTag_ValidationFailure() throws Exception {
         TagCreateRequest invalidRequest = new TagCreateRequest("", 1L);
 
-        mockMvc.perform(post("/api/projects/1/tags")
+        mockMvc.perform(post("/projects/1/tags")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(result -> assertThat(result.getResolvedException())
