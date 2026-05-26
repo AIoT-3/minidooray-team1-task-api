@@ -1,10 +1,7 @@
 package com.nhnacademy.minidooray_task.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
@@ -24,12 +21,11 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "member_id", referencedColumnName = "member_id",
-                    insertable = false, updatable = false),
-            @JoinColumn(name = "project_id", referencedColumnName = "project_id",
-                    insertable = false, updatable = false) // ✅ 중복 컬럼 읽기 전용
+            @JoinColumn(name = "member_id", referencedColumnName = "member_id"),
+            @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     })
     private ProjectMember projectMember;
+
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
